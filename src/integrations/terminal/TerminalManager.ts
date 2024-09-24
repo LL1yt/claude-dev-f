@@ -24,7 +24,7 @@ Enables flexible command execution:
 - Retrieve missed output later
 
 Notes:
-- it turns out some shellIntegration APIs are available on cursor, although not on older versions of vscode
+- it turns out some shellIntegration_m APIs are available on cursor, although not on older versions of vscode
 - "By default, the shell integration script should automatically activate on supported shells launched from VS Code."
 Supported shells:
 Linux/macOS: bash, fish, pwsh, zsh
@@ -62,17 +62,18 @@ Resources:
 */
 
 /*
-The new shellIntegration API gives us access to terminal command execution output handling.
+The new shellIntegration_m API gives us access to terminal command execution output handling.
 However, we don't update our VSCode type definitions or engine requirements to maintain compatibility
 with older VSCode versions. Users on older versions will automatically fall back to using sendText
 for terminal command execution.
 Interestingly, some environments like Cursor enable these APIs even without the latest VSCode engine.
 This approach allows us to leverage advanced features when available while ensuring broad compatibility.
 */
+
 declare module "vscode" {
 	// https://github.com/microsoft/vscode/blob/f0417069c62e20f3667506f4b7e53ca0004b4e3e/src/vscode-dts/vscode.d.ts#L7442
 	interface Terminal {
-		shellIntegration?: {
+		shellIntegration_m?: {
 			cwd?: vscode.Uri
 			executeCommand?: (command: string) => {
 				read: () => AsyncIterable<string>
@@ -113,7 +114,7 @@ export class TerminalManager {
 		if (disposable) {
 			this.disposables.push(disposable)
 		}
-		// Oddly if we listen to `onDidStartTerminalShellExecution` or `onDidChangeTerminalShellIntegration` this hack doesn't work...
+		// Oddly if we listen to `onDidStartTerminalShellExecution` or `onDidChangeTerminalshellIntegration` this hack doesn't work...
 	}
 
 	runCommand(terminalInfo: TerminalInfo, command: string): TerminalProcessResultPromise {
@@ -146,12 +147,12 @@ export class TerminalManager {
 		})
 
 		// if shell integration is already active, run the command immediately
-		if (terminalInfo.terminal.shellIntegration) {
+		if (terminalInfo.terminal.shellIntegration_m) {
 			process.waitForShellIntegration = false
 			process.run(terminalInfo.terminal, command)
 		} else {
 			// docs recommend waiting 3s for shell integration to activate
-			pWaitFor(() => terminalInfo.terminal.shellIntegration !== undefined, { timeout: 4000 }).finally(() => {
+			pWaitFor(() => terminalInfo.terminal.shellIntegration_m !== undefined, { timeout: 4000 }).finally(() => {
 				const existingProcess = this.processes.get(terminalInfo.id)
 				if (existingProcess && existingProcess.waitForShellIntegration) {
 					existingProcess.waitForShellIntegration = false
@@ -169,7 +170,7 @@ export class TerminalManager {
 			if (t.busy) {
 				return false
 			}
-			const terminalCwd = t.terminal.shellIntegration?.cwd // one of claude's commands could have changed the cwd of the terminal
+			const terminalCwd = t.terminal.shellIntegration_m?.cwd // one of claude's commands could have changed the cwd of the terminal
 			if (!terminalCwd) {
 				return false
 			}

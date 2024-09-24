@@ -1,179 +1,207 @@
 {
-  "name": "claude-dev",
-  "displayName": "Claude Dev",
-  "description": "Autonomous coding agent right in your IDE, capable of creating/editing files, executing commands, and more with your permission every step of the way.",
-  "version": "1.9.4",
-  "icon": "icons/icon.png",
-  "galleryBanner": {
-    "color": "#1E1E1E",
-    "theme": "dark"
-  },
-  "engines": {
-    "vscode": "^1.84.0"
-  },
-  "author": {
-    "name": "Saoud Rizwan"
-  },
-  "license": "MIT",
-  "publisher": "saoudrizwan",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/saoudrizwan/claude-dev"
-  },
-  "categories": [
-    "AI",
-    "Chat",
-    "Programming Languages",
-    "Education",
-    "Snippets",
-    "Testing"
-  ],
-  "keywords": [
-    "claude",
-    "coding",
-    "agent",
-    "autonomous",
-    "chatgpt",
-    "sonnet",
-    "ai",
-    "llama"
-  ],
-  "activationEvents": [],
-  "main": "./dist/extension.js",
-  "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "claude-dev-ActivityBar",
-          "title": "Claude Dev",
-          "icon": "$(robot)"
-        }
-      ]
-    },
-    "views": {
-      "claude-dev-ActivityBar": [
-        {
-          "type": "webview",
-          "id": "claude-dev.SidebarProvider",
-          "name": ""
-        }
-      ]
-    },
-    "commands": [
-      {
-        "command": "claude-dev.plusButtonTapped",
-        "title": "New Task",
-        "icon": "$(add)"
-      },
-      {
-        "command": "claude-dev.historyButtonTapped",
-        "title": "History",
-        "icon": "$(history)"
-      },
-      {
-        "command": "claude-dev.popoutButtonTapped",
-        "title": "Open in Editor",
-        "icon": "$(link-external)"
-      },
-      {
-        "command": "claude-dev.settingsButtonTapped",
-        "title": "Settings",
-        "icon": "$(settings-gear)"
-      },
-      {
-        "command": "claude-dev.openInNewTab",
-        "title": "Open In New Tab",
-        "category": "Claude Dev"
-      }
-    ],
-    "menus": {
-      "view/title": [
-        {
-          "command": "claude-dev.plusButtonTapped",
-          "group": "navigation@1",
-          "when": "view == claude-dev.SidebarProvider"
-        },
-        {
-          "command": "claude-dev.historyButtonTapped",
-          "group": "navigation@2",
-          "when": "view == claude-dev.SidebarProvider"
-        },
-        {
-          "command": "claude-dev.popoutButtonTapped",
-          "group": "navigation@3",
-          "when": "view == claude-dev.SidebarProvider"
-        },
-        {
-          "command": "claude-dev.settingsButtonTapped",
-          "group": "navigation@4",
-          "when": "view == claude-dev.SidebarProvider"
-        }
-      ]
-    }
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run package",
-    "compile": "npm run check-types && npm run lint && node esbuild.js",
-    "watch": "npm-run-all -p watch:*",
-    "watch:esbuild": "node esbuild.js --watch",
-    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "npm run build:webview && npm run check-types && npm run lint && node esbuild.js --production",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint src --ext ts",
-    "test": "vscode-test",
-    "install:all": "npm install && cd webview-ui && npm install",
-    "start:webview": "cd webview-ui && npm run start",
-    "build:webview": "cd webview-ui && npm run build",
-    "test:webview": "cd webview-ui && npm run test",
-    "publish:marketplace": "vsce publish && ovsx publish"
-  },
-  "devDependencies": {
-    "@types/diff": "^5.2.1",
-    "@types/mocha": "^10.0.7",
-    "@types/node": "20.x",
-    "@types/vscode": "^1.84.0",
-    "@typescript-eslint/eslint-plugin": "^7.14.1",
-    "@typescript-eslint/parser": "^7.11.0",
-    "@vscode/test-cli": "^0.0.9",
-    "@vscode/test-electron": "^2.4.0",
-    "esbuild": "^0.21.5",
-    "eslint": "^8.57.0",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^5.4.5"
-  },
-  "dependencies": {
-    "@anthropic-ai/bedrock-sdk": "^0.10.2",
-    "@anthropic-ai/sdk": "^0.26.0",
-    "@anthropic-ai/vertex-sdk": "^0.4.1",
-    "@google/generative-ai": "^0.18.0",
-    "@types/clone-deep": "^4.0.4",
-    "@types/pdf-parse": "^1.1.4",
-    "@types/turndown": "^5.0.5",
-    "@vscode/codicons": "^0.0.36",
-    "axios": "^1.7.4",
-    "cheerio": "^1.0.0",
-    "clone-deep": "^4.0.1",
-    "default-shell": "^2.2.0",
-    "delay": "^6.0.0",
-    "diff": "^5.2.0",
-    "fast-deep-equal": "^3.1.3",
-    "globby": "^14.0.2",
-    "isbinaryfile": "^5.0.2",
-    "mammoth": "^1.8.0",
-    "monaco-vscode-textmate-theme-converter": "^0.1.7",
-    "openai": "^4.61.0",
-    "os-name": "^6.0.0",
-    "p-wait-for": "^5.0.2",
-    "pdf-parse": "^1.1.1",
-    "puppeteer-chromium-resolver": "^23.0.0",
-    "puppeteer-core": "^23.4.0",
-    "serialize-error": "^11.0.3",
-    "strip-ansi": "^7.1.0",
-    "tree-sitter-wasms": "^0.1.11",
-    "turndown": "^7.2.0",
-    "web-tree-sitter": "^0.22.6"
-  }
+	"name": "claude-dev-f",
+	"displayName": "Claude Dev F",
+	"description": "Autonomous coding agent right in your IDE, capable of creating/editing files, executing commands, and more with your permission every step of the way.",
+	"version": "1.9.4",
+	"icon": "icons/icon.png",
+	"galleryBanner": {
+		"color": "#1E1E1E",
+		"theme": "dark"
+	},
+	"engines": {
+		"vscode": "^1.93.0"
+	},
+	"author": {
+		"name": "Saoud Rizwan"
+	},
+	"license": "MIT",
+	"publisher": "saoudrizwan",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/saoudrizwan/claude-dev"
+	},
+	"categories": [
+		"AI",
+		"Chat",
+		"Programming Languages",
+		"Education",
+		"Snippets",
+		"Testing"
+	],
+	"keywords": [
+		"claude",
+		"coding",
+		"agent",
+		"autonomous",
+		"chatgpt",
+		"sonnet",
+		"ai",
+		"llama"
+	],
+	"activationEvents": [],
+	"main": "./dist/extension.js",
+	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "claude-dev-ActivityBar",
+					"title": "Claude Dev",
+					"icon": "$(robot)"
+				}
+			]
+		},
+		"views": {
+			"claude-dev-ActivityBar": [
+				{
+					"type": "webview",
+					"id": "claude-dev.SidebarProvider",
+					"name": ""
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "claude-dev.plusButtonTapped",
+				"title": "New Task",
+				"icon": "$(add)"
+			},
+			{
+				"command": "claude-dev.historyButtonTapped",
+				"title": "History",
+				"icon": "$(history)"
+			},
+			{
+				"command": "claude-dev.popoutButtonTapped",
+				"title": "Open in Editor",
+				"icon": "$(link-external)"
+			},
+			{
+				"command": "claude-dev.settingsButtonTapped",
+				"title": "Settings",
+				"icon": "$(settings-gear)"
+			},
+			{
+				"command": "claude-dev.openInNewTab",
+				"title": "Open In New Tab",
+				"category": "Claude Dev"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "claude-dev.plusButtonTapped",
+					"group": "navigation@1",
+					"when": "view == claude-dev.SidebarProvider"
+				},
+				{
+					"command": "claude-dev.historyButtonTapped",
+					"group": "navigation@2",
+					"when": "view == claude-dev.SidebarProvider"
+				},
+				{
+					"command": "claude-dev.popoutButtonTapped",
+					"group": "navigation@3",
+					"when": "view == claude-dev.SidebarProvider"
+				},
+				{
+					"command": "claude-dev.settingsButtonTapped",
+					"group": "navigation@4",
+					"when": "view == claude-dev.SidebarProvider"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run package",
+		"compile": "npm run check-types && npm run lint && node esbuild.js",
+		"watch": "npm-run-all -p watch:*",
+		"watch:esbuild": "node esbuild.js --watch",
+		"watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+		"package": "npm run build:webview && npm run check-types && npm run lint && node esbuild.js --production",
+		"compile-tests": "tsc -p . --outDir out",
+		"watch-tests": "tsc -p . -w --outDir out",
+		"pretest": "npm run compile-tests && npm run compile && npm run lint",
+		"check-types": "tsc --noEmit",
+		"lint": "eslint src --ext ts",
+		"test": "vscode-test",
+		"install:all": "npm install && cd webview-ui && npm install",
+		"start:webview": "cd webview-ui && npm run start",
+		"build:webview": "cd webview-ui && npm run build",
+		"test:webview": "cd webview-ui && npm run test",
+		"publish:marketplace": "vsce publish && ovsx publish"
+	},
+	"devDependencies": {
+		"@babel/plugin-proposal-private-property-in-object": "7.21.0.2",
+		"@types/diff": "^5.2.1",
+		"@types/mocha": "^10.0.7",
+		"@types/node": "20.x",
+		"@types/react": "^18.3.9",
+		"@types/react-dom": "^18.3.0",
+		"@types/vscode": "^1.93.0",
+		"@types/vscode-webview": "^1.57.5",
+		"@typescript-eslint/eslint-plugin": "^7.14.1",
+		"@typescript-eslint/parser": "^7.11.0",
+		"@vscode/test-cli": "^0.0.9",
+		"@vscode/test-electron": "^2.4.0",
+		"codegen": "^0.1.0",
+		"esbuild": "0.21.5",
+		"eslint": "^8.57.0",
+		"glob": "^11.0.0",
+		"npm-run-all": "^4.1.5",
+		"react-scripts": "^5.0.1",
+		"rewire": "^7.0.0",
+		"rimraf": "^6.0.1",
+		"typescript": "^5.4.5"
+	},
+	"overrides": {
+		"react-scripts": {
+			"typescript": "^5"
+		}
+	},
+	"dependencies": {
+		"@anthropic-ai/bedrock-sdk": "^0.10.2",
+		"@anthropic-ai/sdk": "^0.26.0",
+		"@anthropic-ai/vertex-sdk": "^0.4.1",
+		"@eslint/config-array": "^0.18.0",
+		"@eslint/object-schema": "^2.1.4",
+		"@google/generative-ai": "^0.18.0",
+		"@types/clone-deep": "^4.0.4",
+		"@types/pdf-parse": "^1.1.4",
+		"@types/turndown": "^5.0.5",
+		"@vscode/codicons": "^0.0.36",
+		"@vscode/webview-ui-toolkit": "^1.4.0",
+		"axios": "^1.7.4",
+		"cheerio": "^1.0.0",
+		"clone-deep": "^4.0.1",
+		"default-shell": "^2.2.0",
+		"delay": "^6.0.0",
+		"diff": "^5.2.0",
+		"fast-deep-equal": "^3.1.3",
+		"fuse.js": "^7.0.0",
+		"globby": "^14.0.2",
+		"isbinaryfile": "^5.0.2",
+		"mammoth": "^1.8.0",
+		"monaco-vscode-textmate-theme-converter": "^0.1.7",
+		"openai": "^4.61.0",
+		"os-name": "^6.0.0",
+		"p-wait-for": "^5.0.2",
+		"pdf-parse": "^1.1.1",
+		"puppeteer-chromium-resolver": "^23.0.0",
+		"puppeteer-core": "^23.4.0",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"react-markdown": "^9.0.1",
+		"react-remark": "^2.1.0",
+		"react-textarea-autosize": "^8.5.3",
+		"react-use": "^17.5.1",
+		"react-virtuoso": "^4.10.4",
+		"rehype-highlight": "^7.0.0",
+		"serialize-error": "^11.0.3",
+		"strip-ansi": "^7.1.0",
+		"styled-components": "^6.1.13",
+		"tree-sitter-wasms": "^0.1.11",
+		"turndown": "^7.2.0",
+		"web-tree-sitter": "^0.22.6",
+		"web-vitals": "^4.2.3"
+	}
 }
