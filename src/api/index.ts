@@ -1,7 +1,6 @@
 import { Anthropic } from "@anthropic-ai/sdk"
 import { ApiConfiguration, ModelInfo } from "../shared/api"
 import { AnthropicHandler } from "./providers/anthropic"
-import { OpenAiHandler } from "./providers/openai"
 
 export interface ApiHandlerMessageResponse {
 	message: Anthropic.Messages.Message
@@ -23,9 +22,6 @@ export function buildApiHandler(configuration: ApiConfiguration): ApiHandler {
 	switch (apiProvider) {
 		case "anthropic":
 			return new AnthropicHandler(options)
-		case "openai":
-			return new OpenAiHandler(options)
-		case "ollama":
 		default:
 			return new AnthropicHandler(options)
 	}
