@@ -27,6 +27,7 @@ export interface ApiHandlerOptions {
 	geminiApiKey?: string
 	openAiNativeApiKey?: string
 	azureApiVersion?: string
+	showConfirmationDialog?: boolean // New option for controlling the confirmation dialog
 }
 
 export type ApiConfiguration = ApiHandlerOptions & {
